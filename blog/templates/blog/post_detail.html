@@ -1,0 +1,101 @@
+{#blog/templates/blog/post_detail.html#}
+
+{% extends "blog/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+                {% if object.author == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Редактировать</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Удалить</a>
+                    </div>
+                {% endif %}
+            </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+            <p class="article-content">{{ object.content }}</p>
+        </div>
+    </article>
+    <div class="content-section">
+        <h2>Комментарии</h2>
+        {% for comment in comments %}
+            <div class="comment mb-3">
+                <div class="comment-parent border p-3 rounded">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img class="rounded-circle" src="{{ comment.user.profile.image.url }}"
+                                 alt="Image of {{ comment.user.username }}" style="width: 50px; height: 50px;">
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ comment.user.username }}</strong>
+                                <small class="text-muted">{{ comment.date_posted|date:"d M Y, H:i" }}</small>
+                            </div>
+                            <p class="comment-body mt-2">{{ comment.comment }}</p>
+                        </div>
+                    </div>
+
+                    {% if comment.user == user %}
+                        <a href="{% url 'comment-delete' comment.pk %}" class="btn btn-sm">Удалить</a>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <button class="btn btn-sm" onclick="toggleReplyForm({{ comment.id }})">Ответить</button>
+
+                        <form id="reply-form-{{ comment.id }}" method="POST" style="display: none;" class="mt-2">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                            <button type="submit" class="btn btn-sm">Добавить ответ</button>
+                        </form>
+                    {% endif %}
+                </div>
+
+                <div class="replies mt-3 ps-md-5">
+                    {% for reply in comment.replies.all %}
+                        <div class="reply border p-2 rounded mt-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <img class="rounded-circle" src="{{ comment.user.profile.image.url }}"
+                                         alt="Image of {{ comment.user.username }}" style="width: 50px; height: 50px;">
+                                </div>
+
+                                <div class="col">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>{{ reply.user.username }}</strong>
+                                        <small class="text-muted">{{ reply.date_posted|date:"d M Y, H:i" }}</small>
+                                    </div>
+                                    <p class="reply-body mt-1">{{ reply.comment }}</p>
+                                </div>
+                            </div>
+                            {% if reply.parent_comment %}
+                                <small>Ответ пользователю
+                                    <strong>{{ reply.parent_comment.user.username }}</strong></small>
+                            {% endif %}
+
+                            {% if reply.user == user %}
+                                <a href="{% url 'comment-delete' reply.pk %}"
+                                   class="btn btn-danger btn-sm">Удалить</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% empty %}
+            <p>Комментариев пока нет.</p>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="btn btn-sm">Добавить комментарий</button>
+            </form>
+        {% else %}
+            <p>Вам нужно <a href="{% url 'login' %}">войти</a>, чтобы оставить комментарий.</p>
+        {% endif %}
+    </div>
+{% endblock content %}

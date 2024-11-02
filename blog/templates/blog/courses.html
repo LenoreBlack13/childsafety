@@ -1,0 +1,81 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <!-- Карточки услуг -->
+    <div class="courses container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-6">
+                <div class="pricingTable yellow">
+                    <div class="pricingTable-header">
+                            <span class="heading">
+                                <h1>Занятие с детьми</h1>
+                            </span>
+                        <span class="price-value"><span class="currency">₽</span>1200<span class="mo">
+                                1,5 - 2 часа</span></span>
+                    </div>
+                    <div class="pricingContent">
+                        <ul>
+                            <li>Упражнения на психологическую устойчивость</li>
+                            <li>Безопасное поведение в интернете</li>
+                            <li>Отработка навыков действий при силовом захвате злоумышленника</li>
+                            <li>Соблюдение личных границ и уважение чужого пространства</li>
+                            <li>Отработка ситуации, когда в школе взрывы или стрельба</li>
+                        </ul>
+                    </div>
+                    <div class="pricingTable-sign-up">
+                        <a href="{% url 'contact-contact' %}" class="btn btn-block btn-default">Записаться</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="pricingTable orange">
+                    <div class="pricingTable-header">
+                            <span class="heading">
+                                <h1>Консультация</h1>
+                            </span>
+                        <span class="price-value"><span class="currency">₽</span>2000<span class="mo">
+                                1,5 - 2 часа</span></span>
+                    </div>
+                    <div class="pricingContent">
+                        <ul>
+                            <li>Анализ текущей ситуации в семье</li>
+                            <li>Разбор принципов позитивного обучения без запугивания</li>
+                            <li>Разбор техник и игр для закрепления правил безопасности</li>
+                            <li>Формирование четкого плана действий для обучения ребенка безопасности</li>
+                            <li>Учёт особенностей конкретного ребенка и его окружения</li>
+                        </ul>
+                    </div>
+                    <div class="pricingTable-sign-up">
+                        <a href="{% url 'contact-contact' %}" class="btn btn-block btn-default">Записаться</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+                <div class="pricingTable blue">
+                    <div class="pricingTable-header">
+                            <span class="heading">
+                                <h1>Марафон</h1>
+                            </span>
+                        <span class="price-value"><span class="currency">₽</span>7500<span class="mo">
+                                    8 недель</span></span>
+                    </div>
+                    <div class="pricingContent">
+                        <ul>
+                            <li>8 занятий (24 игропрактики)</li>
+                            <li>Сопровождение специалиста по детской безопасности</li>
+                            <li>Тренинг для родителей по позитивному обучению безопасности (1,5 часа, видео)</li>
+                            <li>Тренинг по сексуальной безопасности детей (1,5-2 часа, онлайн или оффлайн в СПб)</li>
+                            <li>+ обучающие материалы для самостоятельных занятий с ребёнком</li>
+                        </ul>
+                    </div>
+                    <div class="pricingTable-sign-up">
+                        <a href="{% url 'contact-contact' %}" class="btn btn-block btn-default">Записаться</a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- ./row -->
+    </div> <!-- ./"courses container"-->
+    <!-- /Карточки услуг -->
+{% endblock %}

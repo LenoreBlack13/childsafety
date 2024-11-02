@@ -1,0 +1,95 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="post-list">
+                {% for post in posts %}
+                    <article class="media content-section">
+                        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+                        <div class="media-body">
+                            <div class="article-metadata d-flex justify-content-between">
+                                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                            </div>
+                            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+                            </h2>
+                            <p class="article-content">{{ post.content|truncatewords:50 }}</p>
+                            <p class="article-category">
+                                <strong>
+                                    {% for category in post.categories.all %}
+                                        <a href="?category={{ category.id }}">{{ category.name }}</a>
+                                        {% if not forloop.last %},
+                                        {% endif %}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <div class="pagination justify-content-center">
+                {% if is_paginated %}
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-outline-info mb-4 mr-1" href="?page=1&category={{ request.GET.category }}">Первая</a>
+                        <a class="btn btn-outline-info mb-4 mr-1"
+                           href="?page={{ page_obj.previous_page_number }}&category={{ request.GET.category }}">Предыдущая</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <a class="btn btn-info mb-4 mr-1"
+                               href="?page={{ num }}&category={{ request.GET.category }}">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a class="btn btn-outline-info mb-4 mr-1"
+                               href="?page={{ num }}&category={{ request.GET.category }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-outline-info mb-4 mr-1"
+                           href="?page={{ page_obj.next_page_number }}&category={{ request.GET.category }}">Следующая</a>
+                        <a class="btn btn-outline-info mb-4 mr-1"
+                           href="?page={{ page_obj.paginator.num_pages }}&category={{ request.GET.category }}">Последняя</a>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="content-section">
+                <h3>Категории</h3>
+                <p class='text-muted'>новости и события</p>
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <li class="list-group-item list-group-item-light">
+                            <i class='bx bx-hash' style='color:#f76d6d'></i>
+                            <a href="?category={{ category.id }}">{{ category.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <div class="search-blog">
+                    <form id="search-form" class="search-form mb-3">
+                        <div class="input-group">
+                            <input type="text" id="search-input" placeholder="Поиск по блогу..." class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn-search" type="submit">
+                                    <i class='bx bx-search-alt bx-md bx-tada-hover'></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

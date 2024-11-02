@@ -1,0 +1,143 @@
+{#base.html#}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <!-- Обязательные мета-теги -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap, иконки и шрифт -->
+    <link rel="stylesheet" href="{% static 'blog/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Главная</title>
+    {% endif %}
+</head>
+<body class="d-flex flex-column h-100">
+<header class="header-container container sticky-top">
+    <!-- Верхний контейнер -->
+    <div class="logo-container container">
+        <div class="row align-items-center">
+            <div class="col-2">
+                <a class="navbar-brand mr-4 logo" href="{% url 'blog-myblog' %}">
+                    <i class='bx-fw bx bx-child bx-md bx-tada-hover custom-icon'></i>
+                    <span class="logo-text">Детская безопасность</span>
+                </a>
+            </div>
+            <div class="col-10 d-flex justify-content-end">
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        {% with user.profile as profile %}
+                            {% if profile.can_create_posts %}
+                                <a class="btn" href="{% url 'post-create' %}">Новая запись</a>
+                            {% endif %}
+                        {% endwith %}
+                        <a class="btn" href="{% url 'profile' %}">Профиль</a>
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Выход</button>
+                        </form>
+                    {% else %}
+                        <a class="btn" href="{% url 'login' %}">Вход</a>
+                        <a class="btn" href="{% url 'register' %}">Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижняя часть навигационной панели -->
+    <div class="menu-container container">
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler btn" type="button" data-bs-toggle="collapse" data-bs-target="#menu-nav"
+                    aria-controls="menu-nav" aria-expanded="false" aria-label="Открыть меню навигации">
+                <i class='bx bx-menu'></i>
+            </button>
+            <div class="collapse navbar-collapse" id="menu-nav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item {% if active_page == 'home' %}active{% endif %} mx-3">
+                        <a href="{% url 'blog-home' %}" class="nav-link pl-0">Главная</a>
+                    </li>
+                    <li class="nav-item {% if active_page == 'about' %}active{% endif %} mx-3"><a
+                            href="{% url 'blog-about' %}" class="nav-link">О проекте</a></li>
+                    <li class="nav-item {% if active_page == 'test' %}active{% endif %} mx-3"><a
+                            href="{% url 'test-test' %}"
+                            class="nav-link">Тест</a>
+                    </li>
+                    <li class="nav-item {% if active_page == 'courses' %}active{% endif %} mx-3"><a
+                            href="{% url 'blog-courses' %}" class="nav-link">Тарифы</a>
+                    </li>
+                    <li class="nav-item {% if active_page == 'myblog' %}active{% endif %} mx-3"><a
+                            href="{% url 'blog-myblog' %}" class="nav-link">Блог</a></li>
+                    <li class="nav-item {% if active_page == 'reviews' %}active{% endif %} mx-3"><a
+                            href="{% url 'review-reviews' %}"
+                            class="nav-link">Отзывы</a>
+                    </li>
+                    <li class="nav-item {% if active_page == 'contact' %}active{% endif %} mx-3"><a
+                            href="{% url 'contact-contact' %}"
+                            class="nav-link">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main role="main" class="container flex-shrink-0">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+
+<!-- footer-start -->
+<footer class="footer-container container">
+    <!-- Grid container -->
+    <div class="container">
+        <!-- Section: Social media -->
+        <section class="footer-social-buttons mb-2">
+            <!-- Telegram -->
+            <a class="btn footer-btn" href="#!">
+                <i class='bx bxl-telegram bx-sm bx-border-circle'></i></a>
+            <!-- Vk -->
+            <a class="btn footer-btn" href="#!" role="button">
+                <i class='bx bxl-vk bx-sm bx-border-circle'></i></a>
+            <!-- Whatsapp -->
+            <a class="btn footer-btn" href="#!" role="button">
+                <i class='bx bxl-whatsapp bx-sm bx-border-circle'></i></a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright">
+        <p>© <span id="current-year"></span> Copyright:
+            <a class="text" href="/">ChildSafety.ru</a></p>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- footer-end -->
+
+<!-- Дополнительные скрипты JavaScript -->
+<!-- Сначала jQuery, затем Popper.js, последним Bootstrap JS -->
+<script src="{% static 'blog/js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'blog/js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{#test/templates/test/test_result.html#}
+
+{% extends "blog/base.html" %}
+{% block content %}
+
+<h1>Ваш результат: {{ score }} из {{ total }}</h1>
+<a href="{% url 'test-test' %}">Пройти тест снова</a>
+
+{% endblock content %}

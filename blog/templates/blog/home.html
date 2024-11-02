@@ -1,0 +1,196 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <section class="banner">
+        <div class="banner-container container">
+            <div class="row">
+                <div class="col-md-8 d-flex flex-column justify-content-center">
+                    <div class="banner-text ms-5">
+                        <p>Екатерина Гукова</p>
+                        <h1>Сертифицированный специалист по детской безопасности</h1>
+                        <p>В онлайн-школе "Детская безопасность без запугивания" я обучаю
+                            родителей позитивным подходам к обучению безопасности и сексуальной безопасности детей.
+                            Здесь я
+                            делюсь знаниями и опытом, чтобы помочь вам в общении с детьми о безопасности. И помните –
+                            это
+                            можно сделать без страха и тревог!</p>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end m-0 p-0">
+                    <div class="banner-img me-5">
+                        <img src="{{ MEDIA_URL }}banner.png" class="img-fluid" alt="banner">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="info-container container">
+            <div class="column column-1"></div>
+            <div class="column column-2 shape-1">
+                <h1>01. Обучение в игре</h1>
+                <ul>
+                    <li>сказкотерапия</li>
+                    <li>подвижные игры</li>
+                    <li>квесты</li>
+                    <li>ролевые игры</li>
+                    <li>мультики</li>
+                    <li>аудиосказки</li>
+                    <li>творческие занятия</li>
+                </ul>
+            </div>
+            <div class="column column-3 shape-2">
+                <h1>02. Тренинг для родителей</h1>
+                <p>обучаю родителей подходу к системе позитивного обучения безопасности и безопасной среды для детей.
+                </p>
+            </div>
+            <div class="column column-4 shape-3">
+                <h1>03. Онлайн-консультации</h1>
+                <p>провожу консультации-аудит текущего положения в семье в области детской безопасности.</p>
+            </div>
+            <div class="background"></div>
+        </div>
+
+        <div class="abouttest-container container">
+            <div class="abouttest">
+                <h1>Проверьте навыки безопасности своего ребенка!</h1>
+                <p>Пройдите тест, чтобы оценить готовность ребенка к взаимодействию с окружающим
+                    миром</p>
+            </div>
+            <div class="testbtn">
+                <a href="{% url 'test-test' %}" class="btn-primary">Пройти тест</a>
+            </div>
+        </div>
+    </section>
+    <section>
+        <!-- Отзывы -->
+        <div class="reviews-container container">
+            <div class="row">
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="title">
+                        <h1>Отзывы родителей</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="my-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row justify-content-center">
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Евгения</h1>
+                                            <p id="review-1">В воскресенье я посетила тренинг у
+                                                Екатерины
+                                                о сексуальной безопасности.
+                                                Хотелось узнать как правильно объяснить ребенку, что такое секс, откуда
+                                                берутся дети,
+                                                <span class="more-text" style="display:none;"> как обезопасить ребенка.
+                                                    Ответы на свои вопросы
+                                                    получила, определила для себя дальнейший план действий в отношении
+                                                    ребенка.
+                                                    Мне всё очень понравилось: уютное кафе, юмор, доступная и нужная
+                                                    информация.
+                                                    Я рекомендую данный тренинг тем родителям, кто стесняется говорить с
+                                                    детьми на интимные темы, не знает как правильно подготовить ребенка
+                                                    к
+                                                    половой жизни.
+                                                    Спасибо всем за приятный и продуктивный вечер!</span>
+                                            </p>
+                                            <span class="read-more" onclick="toggleText('review-1')">...Читать
+                                                далее</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Анна</h1>
+                                            <p id="review-2">
+                                                Хочу поблагодарить за ваш тренинг по «Сексуальной безопасности».
+                                                Освежила в памяти все, что уже знала по этой теме и получила новые
+                                                знания.
+                                                Очень понравилось, что
+                                                    было<span class="more-text" style="display:none;">
+                                                    много примеров из жизни и готовых инструментов для применения в
+                                                    разных
+                                                    ситуациях.</span>
+                                            </p>
+                                            <span class="read-more" onclick="toggleText('review-2')">...Читать
+                                                далее</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Анастасия</h1>
+                                            <p id="review-3">Катя, благодарю за проведение тренинга
+                                                для
+                                                мам Васильевского острова!
+                                                Важно,что мы не только услышали информацию, но разобрали разные
+                                                непростые
+                                                вопросы и<span class="more-text" style="display:none;"> личные ситуации.
+                                                Мне очень импонировало
+                                                    приведение большого количества живых примеров.
+                                                    Теперь понимаю, как сама буду отвечать на вопросы моих детей и чему
+                                                    буду
+                                                    их учить.
+                                                    Табулированная тема стала не стеснительной и не неудобной.
+                                                    Благодарю ♥️</span>
+                                            </p>
+                                            <span class="read-more" onclick="toggleText('review-3')">...Читать
+                                                далее</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row justify-content-center">
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Title4</h1>
+                                            <p>Subtitle4</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Title5</h1>
+                                            <p>Subtitle5</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-9 col-9">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1>Title6</h1>
+                                            <p>Subtitle6</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#my-carousel"
+                            data-bs-slide="prev">
+                        <span aria-hidden="true"><i
+                                class='bx bxs-left-arrow-circle bx-lg bx-fade-left-hover'></i></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#my-carousel"
+                            data-bs-slide="next">
+                        <span aria-hidden="true"><i
+                                class='bx bxs-right-arrow-circle bx-lg bx-fade-right-hover'></i></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Отзывы Конец-->
+    </section>
+{% endblock content %}

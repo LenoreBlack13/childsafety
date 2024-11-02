@@ -1,0 +1,87 @@
+{#review/templates/review/reviews.html#}
+
+{% extends "blog/base.html" %}
+{% block content %}
+    <section class="reviews">
+        <div class="review-title">
+            <h1>Отзывы</h1>
+        </div>
+        <div id="review-list">
+            {% for review in reviews %}
+                <div class="review mb-3">
+                    <div class="review border p-3 rounded">
+                        <div class="row align-items-center">
+                            <div class="col-auto align-self-start">
+                                <img class="rounded-circle" src="{{ review.user.profile.image.url }}"
+                                     alt="Image of {{ review.user.username }}" style="width: 50px; height: 50px;">
+                            </div>
+                            <div class="col">
+                                <div class="d-flex justify-content-between">
+                                    <strong>{{ review.user.username }}</strong>
+                                    <small class="text-muted">{{ review.date_posted|date:"d M Y, H:i" }}</small>
+                                </div>
+                                <p class="review-body mt-2">{{ review.review }}</p>
+                                <div class="review-rating">
+                                    {% for star in "★★★★★" %}
+                                        <i class="{% if forloop.counter <= review.rating %}bx bxs-star{% else %}bx bxs-star-empty{% endif %}"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if review.user == user %}
+                            <a href="{% url 'review-delete' review.pk %}" class="btn btn-sm">Удалить</a>
+                            <a href="{% url 'review-update' review.pk %}" class="btn btn-sm">Редактировать</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>Отзывов пока нет. Вы можете быть первым!</p>
+            {% endfor %}
+        </div>
+
+
+        {% if user.is_authenticated %}
+            {% if not user_has_review %}
+                <form id="review-form" method="POST">
+                    {% csrf_token %}
+                    {{ review_form.as_p }}
+                    <button type="submit" class="btn btn-sm">Добавить отзыв</button>
+                </form>
+            {% else %}
+                <p>Вы уже оставили отзыв.</p>
+            {% endif %}
+        {% else %}
+            <p>Вам нужно <a href="{% url 'login' %}">войти</a>, чтобы оставить отзыв.</p>
+        {% endif %}
+
+
+        <div class="pagination justify-content-center">
+            {% if is_paginated %}
+
+                {% if page_obj.has_previous %}
+
+                    <a class="btn btn-outline-info mb-4 mr-1" href="?page=1">Первая</a>
+                    <a class="btn btn-outline-info mb-4 mr-1"
+                       href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a class="btn btn-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-outline-info mb-4 mr-1"
+                       href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                    <a class="btn btn-outline-info mb-4 mr-1"
+                       href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+                {% endif %}
+
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

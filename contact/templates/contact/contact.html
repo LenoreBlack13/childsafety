@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <!-- Форма обратной связи -->
+    <div class="contact-form-container">
+        <div class="contact-us">
+            <div class="contact-header">
+                <h1>
+                    ОБРАТНАЯ СВЯЗЬ
+                </h1>
+            </div>
+        </div>
+        <div class="contact-text">
+            <h1>
+                Запись на консультацию
+            </h1>
+        </div>
+        <div class="contact-address">
+            <i class='bx bxs-map bx-md'></i>
+            <h3>
+                Санкт-Петербург
+            </h3>
+            <h3>
+                Россия
+            </h3>
+        </div>
+        <div class="contact-phone">
+            <i class='bx bxs-phone bx-md'></i>
+            <h3>
+                +79991234567
+            </h3>
+        </div>
+        <div class="contact-email">
+            <i class='bx bxs-envelope bx-md'></i>
+            <h3>
+                mail@email.ru
+            </h3>
+        </div>
+        <div class="contact-form">
+            <form method="POST">
+                {% csrf_token %}
+                <div>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error">{{ form.name.errors }}</div>
+                    {% endif %}
+
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <div class="error">{{ form.phone.errors }}</div>
+                    {% endif %}
+
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="error">{{ form.email.errors }}</div>
+                    {% endif %}
+
+                    {{ form.project.label }} {{ form.project }}
+                </div>
+                <div class="btn-contact-form">
+                    <button type="submit" class="btn-primary">ОТПРАВИТЬ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /Форма обратной связи -->
+{% endblock content %}
