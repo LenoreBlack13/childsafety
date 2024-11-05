@@ -97,11 +97,14 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # Проверка на разрешение создания постов
         if not self.request.user.profile.can_create_posts:
-            return redirect('myblog')
+            return redirect('blog-myblog')
 
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        # Если форма недействительна, возвращаем тот же шаблон с формой и ошибками
+        return self.render_to_response(self.get_context_data(form=form))  # Отображаем ошибки формы
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
